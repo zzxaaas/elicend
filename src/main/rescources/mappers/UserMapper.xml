@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zzxcloud.elicend.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="cn.zzxcloud.elicend.mapper.UserMapper">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="login_code" jdbcType="VARCHAR" property="login_code" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+    </resultMap>
+
+    <select id="getUserByLoginCode" resultType="cn.zzxcloud.elicend.entity.User">
+        select * from user where login_code=#{login_code}
+    </select>
+    <select id="getUserByUsername" resultType="cn.zzxcloud.elicend.entity.User">
+        select * from user where username=#{username}
+    </select>
+    <insert id="saveUser" parameterType="cn.zzxcloud.elicend.entity.User">
+        insert into user(login_code,username,password,private_file_path) values (#{login_code},#{password},#{username},#{private_file_path})
+    </insert>
+
+</mapper>
