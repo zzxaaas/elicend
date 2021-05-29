@@ -1,14 +1,15 @@
-package cn.zzxcloud.elicend.entity;
+package cn.zzxcloud.elicend.common.persistence;
 
+import java.io.Serializable;
 import java.sql.Time;
 
-public class Common {
-    private int id;
+public abstract class BaseEntity implements Serializable {
+    private Integer id;
     private Time gmtCreate;
     private Time gmtModifyed;
     private int isDelete;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

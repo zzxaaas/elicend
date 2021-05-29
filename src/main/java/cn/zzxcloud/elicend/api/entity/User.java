@@ -1,6 +1,8 @@
-package cn.zzxcloud.elicend.entity;
+package cn.zzxcloud.elicend.api.entity;
 
-public class User extends Common {
+import cn.zzxcloud.elicend.common.persistence.BaseEntity;
+
+public class User extends BaseEntity {
 
     private String loginCode;
     private String password;

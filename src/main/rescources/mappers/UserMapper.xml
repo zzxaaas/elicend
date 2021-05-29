@@ -1,22 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.zzxcloud.elicend.mapper.UserMapper">
+<mapper namespace="cn.zzxcloud.elicend.api.mapper.UserMapper">
 
-    <resultMap id="BaseResultMap" type="cn.zzxcloud.elicend.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="cn.zzxcloud.elicend.api.entity.User">
         <result column="id" jdbcType="INTEGER" property="id" />
-        <result column="login_code" jdbcType="VARCHAR" property="login_code" />
+        <result column="login_code" jdbcType="VARCHAR" property="loginCode" />
         <result column="password" jdbcType="VARCHAR" property="password" />
         <result column="username" jdbcType="VARCHAR" property="username" />
     </resultMap>
 
-    <select id="getUserByLoginCode" resultType="cn.zzxcloud.elicend.entity.User">
-        select * from user where login_code=#{login_code}
+    <sql id="UserColumns">
+        a.id,
+        a.login_code,
+        a.password,
+        a.username,
+        a.private_file_path,
+        a.gmt_create,
+        a.gmt_modified,
+        a.is_delete
+    </sql>
+
+    <select id="getUserByLoginCode" resultType="cn.zzxcloud.elicend.api.entity.User">
+        SELECT
+        <include refid="UserColumns" />
+        FROM
+        user AS a
+        WHERE
+        login_code = #{login_code}
+        AND is_delete=0
     </select>
-    <select id="getUserByUsername" resultType="cn.zzxcloud.elicend.entity.User">
-        select * from user where username=#{username}
+
+    <select id="getUserByUsername" resultType="cn.zzxcloud.elicend.api.entity.User">
+        SELECT
+        <include refid="UserColumns" />
+        FROM
+        user AS a
+        WHERE
+        username=#{username}
+        AND is_delete=0
     </select>
-    <insert id="saveUser" parameterType="cn.zzxcloud.elicend.entity.User">
-        insert into user(login_code,username,password,private_file_path) values (#{login_code},#{password},#{username},#{private_file_path})
+
+    <select id="getById" resultType="cn.zzxcloud.elicend.api.entity.User">
+        SELECT
+        <include refid="UserColumns" />
+        FROM
+        user AS a
+        <include refid="UserColumns" />
+        WHERE
+        a.id = #{id}
+        AND is_delete=0
+    </select>
+
+    <select id="selectAll" resultType="cn.zzxcloud.elicend.api.entity.User">
+        SELECT
+        <include refid="UserColumns" />
+        FROM
+        user AS a
+        WHERE is_delete=0
+        ORDER BY a.gmt_modified DESC
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM user AS a
+        <where>
+            <if test="login_code != null and login_code != ''" >
+                AND a.login_code LIKE CONCAT ('%', #{login_code}, '%')
+            </if>
+            <if test="username != null and username != ''" >
+                AND a.username LIKE CONCAT ('%', #{username}, '%')
+            </if>
+            AND is_delete=0
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="cn.zzxcloud.elicend.api.entity.User">
+        INSERT INTO user (
+          `login_code`,
+          `password`,
+          `username`,
+          `private_file_path`
+        )
+        VALUES
+          (
+            #{loginCode},
+            #{password},
+            #{username},
+            #{privateFilePath}
+          )
     </insert>
+
+    <update id="delete">
+        UPDATE
+          user
+        SET
+          is_delete = 1
+        WHERE id = #{id}
+    </update>
+
+
+    <update id="update">
+        UPDATE
+          user
+        SET
+          login_code = #{login_code},
+          password = #{password},
+          username = #{username},
+          private_file_path = #{private_file_path}
+        WHERE id = #{id}
+    </update>
 
 </mapper>
