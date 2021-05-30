@@ -23,7 +23,6 @@ public class UserServiceImpl extends AbstractBaseServiceImpl<User, UserMapper> i
             user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
             mapper.insert(user);
         }
-
         // 编辑用户
         else{
             if (StringUtils.isBlank(user.getPassword())){
@@ -39,7 +38,13 @@ public class UserServiceImpl extends AbstractBaseServiceImpl<User, UserMapper> i
     }
 
     @Override
-    public User login(String loginCode, String password) {
+    public User login(User loginUser) {
+        User user  = mapper.getUserByLoginCode(loginUser.getLoginCode());
+        if (user != null) {
+            if (loginUser.getPassword().equals(user.getPassword())){
+                return user;
+            }
+        }
         return null;
     }
 }

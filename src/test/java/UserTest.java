@@ -19,8 +19,9 @@ public class UserTest {
     @Test
     public void testInsert() {
         User user = new User();
+//        user.setId(3);
         user.setUsername("zzxaaas");
-        user.setLoginCode("zxaaas");
+        user.setLoginCode("zzxaaas");
         user.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
 
         userService.save(user);

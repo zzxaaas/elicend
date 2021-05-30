@@ -5,6 +5,6 @@ import cn.zzxcloud.elicend.common.persistence.BaseService;
 
 public interface UserService extends BaseService<User> {
 
-   User login(String loginCode,String password);
+   User login(User user);
 
 }

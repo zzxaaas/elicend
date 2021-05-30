@@ -26,7 +26,7 @@
         FROM
         user AS a
         WHERE
-        login_code = #{login_code}
+        login_code = #{loginCode}
         AND is_delete=0
     </select>
 
@@ -45,7 +45,6 @@
         <include refid="UserColumns" />
         FROM
         user AS a
-        <include refid="UserColumns" />
         WHERE
         a.id = #{id}
         AND is_delete=0
@@ -64,7 +63,7 @@
         SELECT COUNT(*) FROM user AS a
         <where>
             <if test="login_code != null and login_code != ''" >
-                AND a.login_code LIKE CONCAT ('%', #{login_code}, '%')
+                AND a.login_code LIKE CONCAT ('%', #{loginCode}, '%')
             </if>
             <if test="username != null and username != ''" >
                 AND a.username LIKE CONCAT ('%', #{username}, '%')
@@ -102,10 +101,10 @@
         UPDATE
           user
         SET
-          login_code = #{login_code},
+          login_code = #{loginCode},
           password = #{password},
           username = #{username},
-          private_file_path = #{private_file_path}
+          private_file_path = #{privateFilePath}
         WHERE id = #{id}
     </update>
 

@@ -13,12 +13,24 @@ public abstract class BaseEntity implements Serializable {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Time getGmtCreate() {
         return gmtCreate;
     }
 
+    public void setGmtCreate(Time gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
     public Time getGmtModifyed() {
         return gmtModifyed;
+    }
+
+    public void setGmtModifyed(Time gmtModifyed) {
+        this.gmtModifyed = gmtModifyed;
     }
 
     public int getIsDelete() {
