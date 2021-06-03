@@ -4,8 +4,10 @@ import cn.zzxcloud.elicend.api.entity.User;
 import cn.zzxcloud.elicend.api.mapper.UserMapper;
 import cn.zzxcloud.elicend.api.service.UserService;
 import cn.zzxcloud.elicend.common.abstracts.AbstractBaseServiceImpl;
+import cn.zzxcloud.elicend.common.constant.Constant;
 import cn.zzxcloud.elicend.common.dto.BaseResult;
 import cn.zzxcloud.elicend.common.persistence.BaseService;
+import cn.zzxcloud.elicend.common.utils.FileUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -20,7 +22,16 @@ public class UserServiceImpl extends AbstractBaseServiceImpl<User, UserMapper> i
 
         // 新增用户
         if (user.getId() == null){
+            if (mapper.getUserByLoginCode(user.getLoginCode()) != null){
+                return BaseResult.fail("账号已存在");
+            }
+            if (mapper.getUserByUsername(user.getUsername()) != null){
+                return BaseResult.fail("用户名已存在，不可重复");
+            }
             user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+            String userPrivateFilePath = Constant.USER_ROOT_PATH+user.getLoginCode()+"/";
+            user.setPrivateFilePath(userPrivateFilePath);
+            FileUtil.mkdirs(userPrivateFilePath);
             mapper.insert(user);
         }
         // 编辑用户
@@ -41,7 +52,8 @@ public class UserServiceImpl extends AbstractBaseServiceImpl<User, UserMapper> i
     public User login(User loginUser) {
         User user  = mapper.getUserByLoginCode(loginUser.getLoginCode());
         if (user != null) {
-            if (loginUser.getPassword().equals(user.getPassword())){
+            String password = DigestUtils.md5DigestAsHex(loginUser.getPassword().getBytes());
+            if (password.equals(user.getPassword())){
                 return user;
             }
         }

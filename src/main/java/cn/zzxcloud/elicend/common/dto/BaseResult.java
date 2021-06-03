@@ -1,33 +1,33 @@
 package cn.zzxcloud.elicend.common.dto;
+import cn.zzxcloud.elicend.common.constant.Constant;
+
 import java.io.Serializable;
 
 public class BaseResult implements Serializable {
 
-    public static final int STATUS_SUCCESS = 200;
-    public static final int STATUS_FAIL = 500;
 
     private int status;
     private String message;
     private Object data;
 
     public static BaseResult success() {
-        return BaseResult.createResult(STATUS_SUCCESS, "success", null);
+        return BaseResult.createResult(Constant.STATUS_SUCCESS, "success", null);
     }
 
     public static BaseResult success(String message) {
-        return BaseResult.createResult(STATUS_SUCCESS, message, null);
+        return BaseResult.createResult(Constant.STATUS_SUCCESS, message, null);
     }
 
     public static BaseResult success(String message, Object data) {
-        return BaseResult.createResult(STATUS_SUCCESS, message, data);
+        return BaseResult.createResult(Constant.STATUS_SUCCESS, message, data);
     }
 
     public static BaseResult fail() {
-        return BaseResult.createResult(STATUS_FAIL, "fail", null);
+        return BaseResult.createResult(Constant.STATUS_FAIL, "fail", null);
     }
 
     public static BaseResult fail(String message) {
-        return BaseResult.createResult(STATUS_FAIL, message, null);
+        return BaseResult.createResult(Constant.STATUS_FAIL, message, null);
     }
 
     public static BaseResult fail(int status, String message) {
@@ -66,4 +66,12 @@ public class BaseResult implements Serializable {
         return baseResult;
     }
 
+    @Override
+    public String toString() {
+        return "BaseResult{" +
+                "status=" + status +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

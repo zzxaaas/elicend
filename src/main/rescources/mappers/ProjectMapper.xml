@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zzxcloud.elicend.api.mapper.ProjectMapper">
+
+    <sql id="ProjectColumns">
+        a.id,
+        a.user_id,
+        a.language,
+        a.language_version,
+        a.git_repo_uri,
+        a.project_name,
+        a.project_version,
+        a.command,
+        a.sql_sys,
+        a.sql_version,
+        a.container;
+        a.state
+        a.gmt_create,
+        a.gmt_modified,
+        a.is_delete
+    </sql>
+
+    <select id="getById" resultType="cn.zzxcloud.elicend.api.entity.Project">
+        SELECT
+        <include refid="ProjectColumns" />
+        FROM
+        project AS a
+        WHERE
+        a.id = #{id}
+        AND is_delete=0
+    </select>
+
+    <select id="selectAll" resultType="cn.zzxcloud.elicend.api.entity.Project">
+        SELECT
+        <include refid="ProjectColumns" />
+        FROM
+        project AS a
+        WHERE is_delete=0
+        ORDER BY a.gmt_modified DESC
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM project AS a
+        <where>
+            <if test="project_name != null and project_name != ''" >
+                AND a.project_name LIKE CONCAT ('%', #{projectName}, '%')
+            </if>
+            AND is_delete=0
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="cn.zzxcloud.elicend.api.entity.Project">
+        INSERT INTO project (
+          `user_id`,
+          `language`,
+          `language_version`,
+          `git_repo_uri`,
+          `project_name`,
+          `project_version`,
+          `command`,
+          `sql_sys`,
+          `sql_version`,
+          `container`,
+          `state`
+        )
+        VALUES
+          (
+            #{userId},
+            #{language},
+            #{language_version},
+            #{gitRepoUri},
+            #{projectName},
+            #{projectVersion},
+            #{command},
+            #{sqlSys},
+            #{sqlVersion},
+            #{container},
+            #{state}
+          )
+    </insert>
+
+    <update id="delete">
+        UPDATE
+          project
+        SET
+          is_delete = 1
+        WHERE id = #{id}
+    </update>
+
+
+    <update id="update">
+        UPDATE
+          project
+        SET
+          `user_id` = #{userId},
+          `language`= #{language},
+          `language_version` =  #{language_version},
+          `git_repo_uri` =  #{gitRepoUri},
+          `project_name` = #{projectName},
+          `project_version` = #{projectVersion},
+          `command` =  #{command},
+          `sql_sys` = #{sqlSys},
+          `sql_version` = #{sqlVersion},
+          `container` = #{container},
+          `state` = #{state}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

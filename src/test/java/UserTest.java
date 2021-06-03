@@ -24,7 +24,7 @@ public class UserTest {
         user.setLoginCode("zzxaaas");
         user.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
 
-        userService.save(user);
+        System.out.println(userService.save(user).toString());
     }
 
 }
