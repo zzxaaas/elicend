@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ElicEnd | 控制面板</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<!-- Bootstrap 3.3.7 -->
+		<link rel="stylesheet" href="../static/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="../static/assets/bower_components/font-awesome/css/font-awesome.min.css">
+		<!-- Ionicons -->
+		<link rel="stylesheet" href="../static/assets/bower_components/Ionicons/css/ionicons.min.css">
+		<!-- iCheck for checkboxes and radio inputs -->
+		<link rel="stylesheet" href="../static/assets/plugins/iCheck/all.css" />
+		<!-- DataTables -->
+		<link rel="stylesheet"
+			href="../static/assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+		<!-- Theme style -->
+		<link rel="stylesheet" href="../static/assets/css/AdminLTE.min.css">
+		<!-- AdminLTE Skins. Choose a skin from the css/skins
+    folder instead of downloading all of them to reduce the load. -->
+		<link rel="stylesheet" href="../static/assets/css/skins/_all-skins.min.css">
+		<script src="../static/js/vue.js"></script>
+		<script src="../static/js/vue-router.js"></script>
+		<script src="https://unpkg.com/http-vue-loader"></script>
+	</head>
+	<body class="hold-transition skin-blue-light sidebar-mini">
+		<div class="wrapper" id="app">
+
+			<my-header></my-header>
+			<my-aside></my-aside>
+
+
+			<!-- Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>
+						控制面板
+						<small></small>
+					</h1>
+					<ol class="breadcrumb">
+						<li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+						<li class="active">控制面板</li>
+					</ol>
+				</section>
+
+				<!-- Main content -->
+				<section class="content">
+					<!-- general form elements disabled -->
+					<div class="box box-info">
+						<div class="box-header with-border">
+							<h3 class="box-title">新建项目</h3>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body">
+							<form role="form">
+								<!-- text input -->
+								<div class="form-group">
+									<label>Project Name</label>
+									<input type="text" class="form-control" placeholder="Enter your project name">
+								</div>
+								<div class="form-group">
+									<label>Project Version</label>
+									<input type="text" class="form-control" placeholder="Enter your project version">
+								</div>
+								
+								<div class="form-group">
+									<label>Git Repository</label>
+									<input type="text" class="form-control" placeholder="Enter your project git repository">
+								</div>
+								
+								<div class="form-group">
+									<label>Language</label>
+									<select class="form-control">
+										<option>Golang</option>
+										<option>Java</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Language Version</label>
+									<select class="form-control">
+										<option>latest</option>
+										<option>1.16.5</option>
+										<option>1.15.13</option>
+									</select>
+								</div>
+								
+								<!-- textarea -->
+								<div class="form-group">
+									<label>Command</label>
+									<textarea class="form-control" rows="3" placeholder="Enter project build command"></textarea>
+								</div>
+								
+								<div class="checkbox">
+									<label>
+										<input type="checkbox">
+										Need SQL ?
+									</label>
+								</div>
+								
+								<div class="form-group">
+									<label>Database</label>
+									<select class="form-control">
+										<option>Mysql</option>
+										<option>oracle</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Database Version</label>
+									<select class="form-control">
+										<option>latest</option>
+										<option>8.0</option>
+										<option>5.7</option>
+									</select>
+								</div>
+								<button type="submit" class="btn btn-primary pull-left">Submit</button>
+								<a href="main.html">
+									<button class="btn btn-danger pull-right">Cancal</button>
+								</a>
+							</form>
+						</div>
+						<!-- /.box-body -->
+					</div>
+					<!-- /.box -->
+				</section>
+			</div>
+			<my-footer></my-footer>
+		</div>
+
+		<!-- jQuery 3 -->
+		<script src="../static/assets/bower_components/jquery/dist/jquery.min.js"></script>
+		<!-- jQuery UI 1.11.4 -->
+		<script src="../static/assets/bower_components/jquery-ui/jquery-ui.min.js"></script>
+		<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+		<!-- Bootstrap 3.3.7 -->
+		<script src="../static/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<!-- Slimscroll -->
+		<script src="../static/assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+		<!-- jQuery Validation Plugin - v1.14.0 -->
+		<script src="../static/assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+		<script src="../static/assets/plugins/jquery-validation/js/additional-methods.min.js"></script>
+		<script src="../static/assets/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+		<!-- iCheck 1.0.1 -->
+		<script src="../static/assets/plugins/iCheck/icheck.min.js"></script>
+		<!-- DataTables -->
+		<script src="../static/assets/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+		<script src="../static/assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+		<!-- FastClick -->
+		<script src="../static/assets/bower_components/fastclick/lib/fastclick.js"></script>
+		<!-- AdminLTE App -->
+		<script src="../static/assets/js/adminlte.min.js"></script>
+		<script>
+			// Vue.use(httpVueLoader);
+			new Vue({
+				el: '#app',
+				components: {
+					// 将组建加入组建库
+					'my-header': httpVueLoader('./app/header.vue'),
+					'my-aside': httpVueLoader('./app/aside.vue'),
+					'my-footer': httpVueLoader('./app/footer.vue')
+				}
+			})
+		</script>
+		<!-- App -->
+		<!--<script src="../static/assets/app/validate.js"></script>-->
+		<!--<script src="../static/assets/app/app.js"></script>-->
+		<!--<script src="../static/assets/app/datetime.js"></script>-->
+	</body>
+</html>
