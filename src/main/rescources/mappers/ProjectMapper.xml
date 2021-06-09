@@ -8,13 +8,14 @@
         a.language,
         a.language_version,
         a.git_repo_uri,
+        a.local_repo,
         a.project_name,
         a.project_version,
         a.command,
-        a.sql_sys,
-        a.sql_version,
-        a.container;
-        a.state
+        a.db,
+        a.db_version,
+        a.container,
+        a.state,
         a.gmt_create,
         a.gmt_modified,
         a.is_delete
@@ -30,12 +31,33 @@
         AND is_delete=0
     </select>
 
+    <select id="getByName" resultType="cn.zzxcloud.elicend.api.entity.Project">
+        SELECT
+        <include refid="ProjectColumns" />
+        FROM
+        project AS a
+        WHERE
+        a.project_name = #{projectName}
+        AND is_delete=0
+    </select>
+
     <select id="selectAll" resultType="cn.zzxcloud.elicend.api.entity.Project">
         SELECT
         <include refid="ProjectColumns" />
         FROM
         project AS a
         WHERE is_delete=0
+        ORDER BY a.gmt_modified DESC
+    </select>
+
+    <select id="selectAllByUserId" resultType="cn.zzxcloud.elicend.api.entity.Project">
+        SELECT
+        <include refid="ProjectColumns" />
+        FROM
+        project AS a
+        WHERE
+        a.user_id=#{userId}
+        AND is_delete=0
         ORDER BY a.gmt_modified DESC
     </select>
 
@@ -55,11 +77,12 @@
           `language`,
           `language_version`,
           `git_repo_uri`,
+          `local_repo`,
           `project_name`,
           `project_version`,
           `command`,
-          `sql_sys`,
-          `sql_version`,
+          `db`,
+          `db_version`,
           `container`,
           `state`
         )
@@ -67,13 +90,14 @@
           (
             #{userId},
             #{language},
-            #{language_version},
+            #{languageVersion},
             #{gitRepoUri},
+            #{localRepo},
             #{projectName},
             #{projectVersion},
             #{command},
-            #{sqlSys},
-            #{sqlVersion},
+            #{db},
+            #{dbVersion},
             #{container},
             #{state}
           )
@@ -94,13 +118,14 @@
         SET
           `user_id` = #{userId},
           `language`= #{language},
-          `language_version` =  #{language_version},
+          `language_version` =  #{languageVersion},
           `git_repo_uri` =  #{gitRepoUri},
+          `local_repo` =  #{localRepo},
           `project_name` = #{projectName},
           `project_version` = #{projectVersion},
           `command` =  #{command},
-          `sql_sys` = #{sqlSys},
-          `sql_version` = #{sqlVersion},
+          `db` = #{db},
+          `db_version` = #{dbVersion},
           `container` = #{container},
           `state` = #{state}
         WHERE id = #{id}

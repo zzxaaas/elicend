@@ -22,4 +22,6 @@ public interface UserMapper extends BaseMapper<User> {
      */
     User getUserByUsername(String loginCode);
 
+    String getPrivateFilePathById(int id);
+
 }

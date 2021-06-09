@@ -8,7 +8,7 @@ const Get = uri => {
 				type: 'get',
 				dataType: 'json',
 				contentType: 'application/json; charset=UTF-8',
-				data: JSON.stringify(params),
+				data: params,
 				success: function(msg) {
 					resolve(msg)
 				},

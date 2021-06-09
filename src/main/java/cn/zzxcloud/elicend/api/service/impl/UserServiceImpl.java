@@ -18,31 +18,31 @@ public class UserServiceImpl extends AbstractBaseServiceImpl<User, UserMapper> i
 
 
     @Override
-    public BaseResult save(User user) {
+    public BaseResult save(User entity) {
 
         // 新增用户
-        if (user.getId() == null){
-            if (mapper.getUserByLoginCode(user.getLoginCode()) != null){
+        if (entity.getId() == null){
+            if (mapper.getUserByLoginCode(entity.getLoginCode()) != null){
                 return BaseResult.fail("账号已存在");
             }
-            if (mapper.getUserByUsername(user.getUsername()) != null){
+            if (mapper.getUserByUsername(entity.getUsername()) != null){
                 return BaseResult.fail("用户名已存在，不可重复");
             }
-            user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
-            String userPrivateFilePath = Constant.USER_ROOT_PATH+user.getLoginCode()+"/";
-            user.setPrivateFilePath(userPrivateFilePath);
+            entity.setPassword(DigestUtils.md5DigestAsHex(entity.getPassword().getBytes()));
+            String userPrivateFilePath = Constant.USER_ROOT_PATH+entity.getLoginCode()+"/";
+            entity.setPrivateFilePath(userPrivateFilePath);
             FileUtil.mkdirs(userPrivateFilePath);
-            mapper.insert(user);
+            mapper.insert(entity);
         }
         // 编辑用户
         else{
-            if (StringUtils.isBlank(user.getPassword())){
-                User oldUser = getById(user.getId());
-                user.setPassword(oldUser.getPassword());
+            if (StringUtils.isBlank(entity.getPassword())){
+                User oldUser = getById(entity.getId());
+                entity.setPassword(oldUser.getPassword());
             } else {
-                user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+                entity.setPassword(DigestUtils.md5DigestAsHex(entity.getPassword().getBytes()));
             }
-            update(user);
+            update(entity);
         }
 
         return BaseResult.success("保存用户信息成功");
@@ -58,5 +58,10 @@ public class UserServiceImpl extends AbstractBaseServiceImpl<User, UserMapper> i
             }
         }
         return null;
+    }
+
+    @Override
+    public String getPrivateFilePathById(int id) {
+        return mapper.getPrivateFilePathById(id);
     }
 }

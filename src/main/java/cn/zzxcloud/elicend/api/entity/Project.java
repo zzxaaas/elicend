@@ -8,13 +8,14 @@ public class Project extends BaseEntity {
 
     private int userId;
     private String language;
-    private String language_version;
+    private String languageVersion;
     private String gitRepoUri;
+    private String localRepo;
     private String projectName;
     private String projectVersion;
     private String command;
-    private String sqlSys;
-    private String sqlVersion;
+    private String db;
+    private String dbVersion;
     private String container;
     private int state;
 
@@ -23,13 +24,14 @@ public class Project extends BaseEntity {
         return "Project{" +
                 "userId=" + userId +
                 ", language='" + language + '\'' +
-                ", language_version='" + language_version + '\'' +
+                ", language_version='" + languageVersion + '\'' +
                 ", gitRepoUri='" + gitRepoUri + '\'' +
+                ", localRepo='" + localRepo + '\'' +
                 ", projectName='" + projectName + '\'' +
                 ", projectVersion='" + projectVersion + '\'' +
                 ", command='" + command + '\'' +
-                ", sqlSys='" + sqlSys + '\'' +
-                ", sqlVersion='" + sqlVersion + '\'' +
+                ", sqlSys='" + db + '\'' +
+                ", sqlVersion='" + dbVersion + '\'' +
                 ", container='" + container + '\'' +
                 ", state=" + state +
                 '}';

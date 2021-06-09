@@ -7,4 +7,6 @@ public interface UserService extends BaseService<User> {
 
    User login(User user);
 
+   String getPrivateFilePathById(int id);
+
 }

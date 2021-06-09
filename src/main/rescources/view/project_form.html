@@ -27,7 +27,7 @@
 		<script src="https://unpkg.com/http-vue-loader"></script>
 	</head>
 	<body class="hold-transition skin-blue-light sidebar-mini">
-		<div class="wrapper" id="app">
+		<div class="wrapper" id="project-box">
 
 			<my-header></my-header>
 			<my-aside></my-aside>
@@ -60,28 +60,28 @@
 								<!-- text input -->
 								<div class="form-group">
 									<label>Project Name</label>
-									<input type="text" class="form-control" placeholder="Enter your project name">
+									<input type="text" class="form-control" placeholder="Enter your project name" v-model="projectName">
 								</div>
 								<div class="form-group">
 									<label>Project Version</label>
-									<input type="text" class="form-control" placeholder="Enter your project version">
+									<input type="text" class="form-control" placeholder="Enter your project version" v-model="projectVersion">
 								</div>
 								
 								<div class="form-group">
 									<label>Git Repository</label>
-									<input type="text" class="form-control" placeholder="Enter your project git repository">
+									<input type="text" class="form-control" placeholder="Enter your project git repository" v-model="gitRepoUri">
 								</div>
 								
 								<div class="form-group">
 									<label>Language</label>
-									<select class="form-control">
+									<select class="form-control" v-model="language">
 										<option>Golang</option>
 										<option>Java</option>
 									</select>
 								</div>
 								<div class="form-group">
 									<label>Language Version</label>
-									<select class="form-control">
+									<select class="form-control" v-model="languageVersion">
 										<option>latest</option>
 										<option>1.16.5</option>
 										<option>1.15.13</option>
@@ -91,34 +91,36 @@
 								<!-- textarea -->
 								<div class="form-group">
 									<label>Command</label>
-									<textarea class="form-control" rows="3" placeholder="Enter project build command"></textarea>
+									<textarea class="form-control" rows="3" placeholder="Enter project build command" v-model="command"></textarea>
 								</div>
 								
 								<div class="checkbox">
 									<label>
-										<input type="checkbox">
-										Need SQL ?
+										<input type="checkbox" value=true v-model="needDB">
+										Need DataBase ?
 									</label>
 								</div>
-								
-								<div class="form-group">
-									<label>Database</label>
-									<select class="form-control">
-										<option>Mysql</option>
-										<option>oracle</option>
-									</select>
+								<div v-if="needDB">
+									<div class="form-group">
+										<label>Database</label>
+										<select class="form-control"  v-model="db">
+											<option>Mysql</option>
+											<option>oracle</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label>Database Version</label>
+										<select class="form-control"  v-model="dbVersion">
+											<option>latest</option>
+											<option>8.0</option>
+											<option>5.7</option>
+										</select>
+									</div>
 								</div>
-								<div class="form-group">
-									<label>Database Version</label>
-									<select class="form-control">
-										<option>latest</option>
-										<option>8.0</option>
-										<option>5.7</option>
-									</select>
-								</div>
-								<button type="submit" class="btn btn-primary pull-left">Submit</button>
+
+								<button type="button" class="btn btn-primary pull-left" @click="save()">Submit</button>
 								<a href="main.html">
-									<button class="btn btn-danger pull-right">Cancal</button>
+									<button type="button" class="btn btn-danger pull-right">Cancal</button>
 								</a>
 							</form>
 						</div>
@@ -152,18 +154,7 @@
 		<script src="../static/assets/bower_components/fastclick/lib/fastclick.js"></script>
 		<!-- AdminLTE App -->
 		<script src="../static/assets/js/adminlte.min.js"></script>
-		<script>
-			// Vue.use(httpVueLoader);
-			new Vue({
-				el: '#app',
-				components: {
-					// 将组建加入组建库
-					'my-header': httpVueLoader('./app/header.vue'),
-					'my-aside': httpVueLoader('./app/aside.vue'),
-					'my-footer': httpVueLoader('./app/footer.vue')
-				}
-			})
-		</script>
+		<script type="module" src="./js/project.js"></script>
 		<!-- App -->
 		<!--<script src="../static/assets/app/validate.js"></script>-->
 		<!--<script src="../static/assets/app/app.js"></script>-->

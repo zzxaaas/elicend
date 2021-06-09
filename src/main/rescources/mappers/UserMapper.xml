@@ -50,6 +50,16 @@
         AND is_delete=0
     </select>
 
+    <select id="getPrivateFilePathById" resultType="java.lang.String">
+        SELECT
+        a.private_file_path
+        FROM
+        user AS a
+        WHERE
+        a.id = #{id}
+        AND is_delete=0
+    </select>
+
     <select id="selectAll" resultType="cn.zzxcloud.elicend.api.entity.User">
         SELECT
         <include refid="UserColumns" />
