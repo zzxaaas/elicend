@@ -10,6 +10,8 @@ public class ProjectVO implements Serializable {
     private Integer id;
     private String projectName;
     private String projectVersion;
+    private int port;
+    private int bindPort;
     private String language;
     private boolean hasDB;
     private int state;

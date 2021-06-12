@@ -31,4 +31,10 @@ public class ProjectTest {
         }
 
     }
+
+    @Test
+    public void build() {
+        projectService.buildProject(11);
+
+    }
 }

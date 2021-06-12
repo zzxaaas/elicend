@@ -10,4 +10,5 @@ import java.util.List;
 public interface ProjectMapper extends BaseMapper<Project> {
     Project getByName(String name);
     List<Project> selectAllByUserId(int userId);
+    String getGitRepoById(int id);
 }

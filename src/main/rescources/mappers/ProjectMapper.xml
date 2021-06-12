@@ -7,6 +7,8 @@
         a.user_id,
         a.language,
         a.language_version,
+        a.port,
+        a.bind_port,
         a.git_repo_uri,
         a.local_repo,
         a.project_name,
@@ -24,6 +26,16 @@
     <select id="getById" resultType="cn.zzxcloud.elicend.api.entity.Project">
         SELECT
         <include refid="ProjectColumns" />
+        FROM
+        project AS a
+        WHERE
+        a.id = #{id}
+        AND is_delete=0
+    </select>
+
+    <select id="getGitRepoById" resultType="java.lang.String">
+        SELECT
+        a.git_repo_uri
         FROM
         project AS a
         WHERE
@@ -76,6 +88,8 @@
           `user_id`,
           `language`,
           `language_version`,
+          `port`,
+          `bind_port`,
           `git_repo_uri`,
           `local_repo`,
           `project_name`,
@@ -91,6 +105,8 @@
             #{userId},
             #{language},
             #{languageVersion},
+            #{port},
+            #{bindPort},
             #{gitRepoUri},
             #{localRepo},
             #{projectName},
@@ -119,6 +135,8 @@
           `user_id` = #{userId},
           `language`= #{language},
           `language_version` =  #{languageVersion},
+          `port` = #{port},
+          `bind_port` = #{bindPort},
           `git_repo_uri` =  #{gitRepoUri},
           `local_repo` =  #{localRepo},
           `project_name` = #{projectName},

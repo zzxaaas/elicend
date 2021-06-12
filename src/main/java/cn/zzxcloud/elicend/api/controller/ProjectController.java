@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @CrossOrigin
 @RestController
@@ -30,9 +31,11 @@ public class ProjectController {
             return BaseResult.fail("用户私有文件路径出错");
         }
 
-        String localRepo = privateFilePath  + project.getProjectName() + "/repo/";
+        String localRepo = privateFilePath  + project.getProjectName() + "\\repo\\";
         project.setLocalRepo(localRepo);
         project.setState(0);
+        Random random = new Random(1);
+        project.setBindPort(random.nextInt(65534)+1);
         return projectService.save(project);
     }
 
@@ -46,5 +49,11 @@ public class ProjectController {
             projectVOList.add(projectVO);
         }
         return BaseResult.success("success",projectVOList);
+    }
+
+    @GetMapping("/build")
+    public BaseResult buildProject(@RequestParam int projectId){
+        projectService.buildProject(projectId);
+        return BaseResult.success();
     }
 }
