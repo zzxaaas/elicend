@@ -70,7 +70,7 @@
 							</thead>
 							<tbody>
 								<tr v-for="v in projectList">
-									<td><a href="./build.html">{{v.projectName}}</a></td>
+									<td><a href="./build.html" @click="setProjectId(v.id)">{{v.projectName}}</a></td>
 									<td>{{v.projectVersion}}</td>
 									<td>{{v.language}}</td>
 									<td>{{v.hasDB}}</td>

@@ -34,7 +34,8 @@ public class ProjectTest {
 
     @Test
     public void build() {
-        projectService.buildProject(11);
+        Project project = projectService.getById(11);
+        projectService.buildProject(project);
 
     }
 }

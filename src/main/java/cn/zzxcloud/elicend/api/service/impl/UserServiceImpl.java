@@ -29,7 +29,7 @@ public class UserServiceImpl extends AbstractBaseServiceImpl<User, UserMapper> i
                 return BaseResult.fail("用户名已存在，不可重复");
             }
             entity.setPassword(DigestUtils.md5DigestAsHex(entity.getPassword().getBytes()));
-            String userPrivateFilePath = Constant.USER_ROOT_PATH+entity.getLoginCode()+"\\";
+            String userPrivateFilePath = Constant.USER_ROOT_PATH+entity.getLoginCode()+"/";
             entity.setPrivateFilePath(userPrivateFilePath);
             FileUtil.mkdirs(userPrivateFilePath);
             mapper.insert(entity);

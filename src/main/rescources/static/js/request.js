@@ -1,4 +1,5 @@
-const baseUrl = "http://localhost:8080"
+const baseUrl = "http://159.75.109.38:8080"
+// const baseUrl = "http://localhost:8080"
 
 const Get = uri => {
 	return function(params) {

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ProjectService extends BaseService<Project> {
     List<Project> getAllByUserId(int userId);
-    void gitFromRepo(int id);
-    void buildProject(int id);
+    void gitFromRepo(Project project);
+    void buildProject(Project project);
 }

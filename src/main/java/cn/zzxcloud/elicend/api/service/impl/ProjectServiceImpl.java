@@ -6,6 +6,9 @@ import cn.zzxcloud.elicend.api.service.ProjectService;
 import cn.zzxcloud.elicend.common.abstracts.AbstractBaseServiceImpl;
 import cn.zzxcloud.elicend.common.constant.Constant;
 import cn.zzxcloud.elicend.common.dto.BaseResult;
+import cn.zzxcloud.elicend.common.lang.GOLANG;
+import cn.zzxcloud.elicend.common.lang.Lang;
+import cn.zzxcloud.elicend.common.lang.LangFactory;
 import cn.zzxcloud.elicend.common.utils.DockerUtil;
 import cn.zzxcloud.elicend.common.utils.FileUtil;
 import cn.zzxcloud.elicend.common.utils.JGitUtil;
@@ -32,7 +35,8 @@ public class ProjectServiceImpl extends AbstractBaseServiceImpl<Project, Project
 
         JGitUtil jGitUtil = new JGitUtil(gitVO);
 
-        if (jGitUtil.setupRepository()) {
+        System.out.println("git from "+gitVO.getRemoteRepoUri());
+        if (!jGitUtil.setupRepository()) {
             return BaseResult.fail("git拉取仓库错误");
         }
 
@@ -46,26 +50,28 @@ public class ProjectServiceImpl extends AbstractBaseServiceImpl<Project, Project
     }
 
     @Override
-    public void gitFromRepo(int id) {
-        Project project = mapper.getById(id);
+    public void gitFromRepo(Project project) {
         GitVO gitVO = new GitVO.GitVOBuilder(Constant.GIT_USERNAME,Constant.GIT_PASSWORD).build();
         JGitUtil jGitUtil = new JGitUtil(gitVO);
-        gitVO.setLocalRepoGitConfig(project.getLocalRepo() + "\\.git");
+        gitVO.setLocalRepoGitConfig(project.getLocalRepo() + "/.git");
         jGitUtil.pull();
     }
 
     @Override
-    public void buildProject(int id) {
-        Project project = mapper.getById(id);
+    public void buildProject(Project project) {
         DockerUtil dockerUtil = new DockerUtil();
-        String baseImage="";
-        if(project.getLanguage().equals("Golang")){
-            baseImage = "library/golang:" + project.getLanguageVersion();
-        }
+        LangFactory factory=new LangFactory();
+        Lang lang = factory.getInstance(project.getLanguage());
+        String baseImage = lang.getBaseImage() + project.getLanguageVersion();
+        String[] env = lang.getEnv();
+        String baseCmd = lang.getBaseCmd();
         dockerUtil.pullImage(baseImage);
-
-        String[] env = {"GO111MODULE=on","GOPROXY=https://goproxy.io","CGO_ENABLED=0","GOOS=linux"};
-        dockerUtil.createContainer(baseImage,project.getBindPort(),project.getPort(),"/data/app","go build -o app;./app;",env);
+        if(project.getContainer()!=null){
+            dockerUtil.removeContainer(project.getContainer());
+        }
+        String containerId = dockerUtil.createContainer(baseImage,project.getBindPort(),project.getPort(),project.getLocalRepo(),project.getCommand() + baseCmd, env);
+        project.setContainer(containerId);
+        mapper.update(project);
 
     }
 }

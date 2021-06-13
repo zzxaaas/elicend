@@ -23,6 +23,11 @@ var project = new Vue({
 		needDB: false,
 		projectList: []
 	},
+	mounted:function(){
+		if (location.href.indexOf("main")>-1){
+			this.getAll()
+		}
+	},
 	components: {
 		// 将组建加入组建库
 		'my-header': httpVueLoader('./app/header.vue'),
@@ -76,8 +81,11 @@ var project = new Vue({
 				return false
 			}
 			return true
+		},
+		setProjectId:function(projectId){
+			var data = JSON.stringify(projectId)
+			window.localStorage.projectId = data
 		}
-
 	},
 
 })

@@ -31,7 +31,7 @@ public class ProjectController {
             return BaseResult.fail("用户私有文件路径出错");
         }
 
-        String localRepo = privateFilePath  + project.getProjectName() + "\\repo\\";
+        String localRepo = privateFilePath  + project.getProjectName() + "/repo/";
         project.setLocalRepo(localRepo);
         project.setState(0);
         Random random = new Random(1);
@@ -43,17 +43,25 @@ public class ProjectController {
     public BaseResult getAll(@RequestParam int userId){
         List<Project> projectList = projectService.getAllByUserId(userId);
         List<ProjectVO> projectVOList = new ArrayList<>();
-        ProjectVO projectVO = new ProjectVO();
         for (Project project:projectList) {
+            ProjectVO projectVO = new ProjectVO();
             BeanUtils.copyProperties(project, projectVO);
             projectVOList.add(projectVO);
         }
         return BaseResult.success("success",projectVOList);
     }
 
+    @GetMapping("/git/pull")
+    public BaseResult gitFromRepo(@RequestParam int projectId){
+        Project project = projectService.getById(projectId);
+        projectService.gitFromRepo(project);
+        return BaseResult.success();
+    }
+
     @GetMapping("/build")
     public BaseResult buildProject(@RequestParam int projectId){
-        projectService.buildProject(projectId);
+        Project project = projectService.getById(projectId);
+        projectService.buildProject(project);
         return BaseResult.success();
     }
 }
