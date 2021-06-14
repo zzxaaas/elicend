@@ -13,6 +13,7 @@ public class ProjectVO implements Serializable {
     private int port;
     private int bindPort;
     private String language;
+    private String languageVersion;
     private boolean hasDB;
     private int state;
     private Time gmtCreate;

@@ -14,6 +14,7 @@ import cn.zzxcloud.elicend.common.utils.FileUtil;
 import cn.zzxcloud.elicend.common.utils.JGitUtil;
 import cn.zzxcloud.elicend.common.vo.GitVO;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Random;
@@ -67,11 +68,16 @@ public class ProjectServiceImpl extends AbstractBaseServiceImpl<Project, Project
         String baseCmd = lang.getBaseCmd();
         dockerUtil.pullImage(baseImage);
         if(project.getContainer()!=null){
+
             dockerUtil.removeContainer(project.getContainer());
         }
         String containerId = dockerUtil.createContainer(baseImage,project.getBindPort(),project.getPort(),project.getLocalRepo(),project.getCommand() + baseCmd, env);
         project.setContainer(containerId);
         mapper.update(project);
+    }
 
+    @Override
+    public void updateStateById(int id, int state) {
+        mapper.updateStateById(id,state);
     }
 }

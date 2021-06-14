@@ -1,6 +1,8 @@
 package cn.zzxcloud.elicend.api.controller;
 
+import cn.zzxcloud.elicend.api.entity.BuildHistory;
 import cn.zzxcloud.elicend.api.entity.Project;
+import cn.zzxcloud.elicend.api.service.BuildHistoryService;
 import cn.zzxcloud.elicend.api.service.ProjectService;
 import cn.zzxcloud.elicend.api.service.UserService;
 import cn.zzxcloud.elicend.common.dto.BaseResult;
@@ -23,6 +25,9 @@ public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private BuildHistoryService buildHistoryService;
 
     @PostMapping("/save")
     public BaseResult saveProject(@RequestBody Project project){
@@ -51,6 +56,15 @@ public class ProjectController {
         return BaseResult.success("success",projectVOList);
     }
 
+    @GetMapping("/single")
+    public BaseResult getProjectById(@RequestParam int projectId){
+        Project project = projectService.getById(projectId);
+        ProjectVO projectVO = new ProjectVO();
+        BeanUtils.copyProperties(project, projectVO);
+
+        return BaseResult.success("success",projectVO);
+    }
+
     @GetMapping("/git/pull")
     public BaseResult gitFromRepo(@RequestParam int projectId){
         Project project = projectService.getById(projectId);
@@ -62,6 +76,16 @@ public class ProjectController {
     public BaseResult buildProject(@RequestParam int projectId){
         Project project = projectService.getById(projectId);
         projectService.buildProject(project);
+
+        BuildHistory buildHistory = new BuildHistory(projectId,0);
+        buildHistoryService.save(buildHistory);
+
+        return BaseResult.success();
+    }
+
+    @GetMapping("/state")
+    public BaseResult updateState(@RequestParam int projectId,int state){
+        projectService.updateStateById(projectId,state);
         return BaseResult.success();
     }
 }

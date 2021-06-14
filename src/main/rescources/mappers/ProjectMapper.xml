@@ -127,6 +127,14 @@
         WHERE id = #{id}
     </update>
 
+    <update id="updateStateById">
+        UPDATE
+          project
+        SET
+          `state`=#{state}
+        WHERE id = #{id}
+    </update>
+
 
     <update id="update">
         UPDATE

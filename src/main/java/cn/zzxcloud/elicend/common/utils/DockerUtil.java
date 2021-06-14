@@ -3,6 +3,7 @@ package cn.zzxcloud.elicend.common.utils;
 import cn.zzxcloud.elicend.common.constant.Constant;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.exception.DockerException;
 import com.github.dockerjava.api.exception.NotFoundException;
 import com.github.dockerjava.api.model.*;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
@@ -73,7 +74,14 @@ public class DockerUtil {
     }
 
     public void removeContainer(String containerId){
-        this.client.removeContainerCmd(containerId).exec();
+        try{
+            System.out.println("stop container {" + containerId + "}");
+            this.client.stopContainerCmd(containerId).exec();
+            System.out.println("remove container {" + containerId + "}");
+            this.client.removeContainerCmd(containerId).exec();
+        }catch (DockerException e){
+            e.printStackTrace();
+        }
     }
 
 }
