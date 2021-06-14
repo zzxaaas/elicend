@@ -32,7 +32,7 @@
         WHERE
         a.project_id = #{projectId}
         AND is_delete=0
-        ORDER BY a.gmt_modified DESC
+        ORDER BY a.gmt_create DESC
     </select>
 
     <select id="selectAll" resultType="cn.zzxcloud.elicend.api.entity.BuildHistory">
@@ -52,6 +52,9 @@
     </select>
 
     <insert id="insert" parameterType="cn.zzxcloud.elicend.api.entity.BuildHistory">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         INSERT INTO build_history (
           `project_id`,
           `git_msg`,
@@ -61,10 +64,10 @@
         )
         VALUES
           (
-            #{project_id},
-            #{git_msg},
-            #{build_msg},
-            #{run_msg},
+            #{projectId},
+            #{gitMsg},
+            #{buildMsg},
+            #{runMsg},
             #{state}
           )
     </insert>
@@ -90,9 +93,9 @@
         UPDATE
           build_history
         SET
-          `git_msg` = #{git_msg},
-          `build_msg` = #{build_msg},
-          `run_msg` = #{run_msg},
+              `git_msg` = #{gitMsg},
+          `build_msg` = #{buildMsg},
+          `run_msg` = #{runMsg},
           `state` = #{state}
         WHERE id = #{id}
     </update>

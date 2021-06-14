@@ -14,7 +14,7 @@ public interface BaseMapper<T extends BaseEntity> {
      * 新增
      * @param entity
      */
-    void insert(T entity);
+    int insert(T entity);
 
     /**
      * 删除

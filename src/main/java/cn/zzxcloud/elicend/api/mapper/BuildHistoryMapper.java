@@ -13,4 +13,5 @@ public interface BuildHistoryMapper extends BaseMapper<BuildHistory> {
 
     List<BuildHistory> getByProjectId(int projectId);
     void updateStateById(int id,int state);
+
 }

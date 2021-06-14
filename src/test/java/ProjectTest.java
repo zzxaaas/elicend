@@ -32,10 +32,10 @@ public class ProjectTest {
 
     }
 
-    @Test
-    public void build() {
-        Project project = projectService.getById(11);
-        projectService.buildProject(project);
-
-    }
+//    @Test
+//    public void build() {
+//        Project project = projectService.getById(11);
+//        projectService.buildProject(project);
+//
+//    }
 }

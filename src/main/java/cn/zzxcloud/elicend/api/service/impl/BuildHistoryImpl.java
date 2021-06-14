@@ -26,4 +26,9 @@ public class BuildHistoryImpl extends AbstractBaseServiceImpl<BuildHistory, Buil
     public void updateStateById(int id, int state) {
         mapper.updateStateById(id,state);
     }
+
+    @Override
+    public void insert(BuildHistory buildHistory) {
+        mapper.insert(buildHistory);
+    }
 }

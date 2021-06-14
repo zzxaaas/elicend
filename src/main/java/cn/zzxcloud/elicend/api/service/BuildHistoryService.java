@@ -8,4 +8,5 @@ import java.util.List;
 public interface BuildHistoryService extends BaseService<BuildHistory> {
     List<BuildHistory> getByProjectId(int projectId);
     void updateStateById(int id,int state);
+    void insert(BuildHistory buildHistory);
 }

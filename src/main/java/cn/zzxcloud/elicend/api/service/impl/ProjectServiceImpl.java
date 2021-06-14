@@ -1,6 +1,7 @@
 package cn.zzxcloud.elicend.api.service.impl;
 
 import cn.zzxcloud.elicend.api.entity.Project;
+import cn.zzxcloud.elicend.api.mapper.BuildHistoryMapper;
 import cn.zzxcloud.elicend.api.mapper.ProjectMapper;
 import cn.zzxcloud.elicend.api.service.ProjectService;
 import cn.zzxcloud.elicend.common.abstracts.AbstractBaseServiceImpl;
@@ -13,6 +14,7 @@ import cn.zzxcloud.elicend.common.utils.DockerUtil;
 import cn.zzxcloud.elicend.common.utils.FileUtil;
 import cn.zzxcloud.elicend.common.utils.JGitUtil;
 import cn.zzxcloud.elicend.common.vo.GitVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,6 +23,7 @@ import java.util.Random;
 
 @Service
 public class ProjectServiceImpl extends AbstractBaseServiceImpl<Project, ProjectMapper> implements ProjectService {
+
     @Override
     public BaseResult save(Project entity) {
 
@@ -59,19 +62,18 @@ public class ProjectServiceImpl extends AbstractBaseServiceImpl<Project, Project
     }
 
     @Override
-    public void buildProject(Project project) {
+    public void buildProject(Project project,int buildId) {
         DockerUtil dockerUtil = new DockerUtil();
         LangFactory factory=new LangFactory();
         Lang lang = factory.getInstance(project.getLanguage());
         String baseImage = lang.getBaseImage() + project.getLanguageVersion();
         String[] env = lang.getEnv();
         String baseCmd = lang.getBaseCmd();
-        dockerUtil.pullImage(baseImage);
+        dockerUtil.pullImage(baseImage,buildId);
         if(project.getContainer()!=null){
-
-            dockerUtil.removeContainer(project.getContainer());
+            dockerUtil.removeContainer(project.getContainer(),buildId);
         }
-        String containerId = dockerUtil.createContainer(baseImage,project.getBindPort(),project.getPort(),project.getLocalRepo(),project.getCommand() + baseCmd, env);
+        String containerId = dockerUtil.createContainer(baseImage,project.getBindPort(),project.getPort(),project.getLocalRepo(),project.getCommand() + baseCmd, env,buildId);
         project.setContainer(containerId);
         mapper.update(project);
     }

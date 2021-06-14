@@ -80,11 +80,7 @@
 													</h3>
 
 													<div class="timeline-body">
-														Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-														weebly ning heekya handango imeem plugg dopplr jibjab, movity
-														jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo
-														kaboodle
-														quora plaxo ideeli hulu weebly balihoo...
+														<p v-html="nearBuild.gitMsg"></p>
 													</div>
 												</div>
 											</li>
@@ -96,13 +92,9 @@
 												<div class="timeline-item">
 													<span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
 
-													<h3 class="timeline-header no-border">Build</h3>
+													<h3 class="timeline-header">Build</h3>
 													<div class="timeline-body">
-														Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-														weebly ning heekya handango imeem plugg dopplr jibjab, movity
-														jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo
-														kaboodle
-														quora plaxo ideeli hulu weebly balihoo...
+														<p v-html="nearBuild.buildMsg"></p>
 													</div>
 												</div>
 											</li>
@@ -117,12 +109,7 @@
 													<h3 class="timeline-header">Run</h3>
 
 													<div class="timeline-body">
-														Take me to your leader!
-														Switzerland is small and neutral!
-														We are more like Germany, ambitious and misunderstood!
-													</div>
-													<div class="timeline-footer">
-														<a class="btn btn-warning btn-flat btn-xs">View comment</a>
+														<p v-html="nearBuild.runMsg"></p>
 													</div>
 												</div>
 											</li>
@@ -178,15 +165,10 @@
 								</div>
 								
 								<!-- /.box-header -->
-								<div class="box-body">
-									<p><strong><i class="fa fa-circle"
-												style="color: #00A65A;"></i>&ensp;<a href="">buildId</a></strong><i class="pull-right">time</i></p>
-									<p><strong><i class="fa fa-circle"
-												style="color: #DD4B39;"></i>&ensp;<a href="">buildId</a></strong><i class="pull-right">time</i></p>
-									<p><strong><i class="fa fa-circle"
-												style="color: #DD4B39;"></i>&ensp;<a href="">buildId</a></strong><i class="pull-right">time</i></p>
-									<p><strong><i class="fa fa-circle"
-												style="color: #DD4B39;"></i>&ensp;<a href="">buildId</a></strong><i class="pull-right">time</i></p>
+								<div class="box-body" v-for="v in buildHistory">
+									<p v-if="v.state!=-1"><strong>
+									<i class="fa fa-circle" style="color: #00A65A;"></i>&ensp;<a href="">{{v.id}}</a></strong><i class="pull-right"></i></p>
+									<p v-else><strong><i class="fa fa-circle" style="color: #DD4B39;"></i>&ensp;<a href="">{{v.id}}</a></strong><i class="pull-right"></i></p>
 								</div>
 								<!-- /.box-body -->
 							</div>

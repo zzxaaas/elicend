@@ -68,18 +68,27 @@ public class ProjectController {
     @GetMapping("/git/pull")
     public BaseResult gitFromRepo(@RequestParam int projectId){
         Project project = projectService.getById(projectId);
+        BuildHistory buildHistory = new BuildHistory(projectId,0);
+        buildHistoryService.insert(buildHistory);
+
+        buildHistory.setGitMsg("git pull from " + project.getGitRepoUri());
+        buildHistory.setState(1);
+        buildHistoryService.update(buildHistory);
+
         projectService.gitFromRepo(project);
-        return BaseResult.success();
+
+        buildHistory.setGitMsg(buildHistory.getGitMsg()+"</br>git pull success");
+        buildHistory.setState(2);
+        buildHistoryService.update(buildHistory);
+
+        return BaseResult.success("success",buildHistory);
     }
 
     @GetMapping("/build")
-    public BaseResult buildProject(@RequestParam int projectId){
-        Project project = projectService.getById(projectId);
-        projectService.buildProject(project);
-
-        BuildHistory buildHistory = new BuildHistory(projectId,0);
-        buildHistoryService.save(buildHistory);
-
+    public BaseResult buildProject(@RequestParam int buildId){
+        BuildHistory buildHistory = buildHistoryService.getById(buildId);
+        Project project = projectService.getById(buildHistory.getProjectId());
+        projectService.buildProject(project,buildId);
         return BaseResult.success();
     }
 
